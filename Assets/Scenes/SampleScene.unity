@@ -484,8 +484,6 @@ GameObject:
   - component: {fileID: 469935450}
   - component: {fileID: 469935449}
   - component: {fileID: 469935455}
-  - component: {fileID: 469935454}
-  - component: {fileID: 469935453}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -581,31 +579,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &469935453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469935448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 916dd87339967854bbf4f04cfe715734, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &469935454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469935448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c39b6112ed07c439b6fb2fae339383, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnActionButtonPrefab: {fileID: 0}
 --- !u!114 &469935455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1455,6 +1428,8 @@ GameObject:
   m_Component:
   - component: {fileID: 855368606}
   - component: {fileID: 855368605}
+  - component: {fileID: 855368608}
+  - component: {fileID: 855368607}
   - component: {fileID: 855368604}
   - component: {fileID: 855368603}
   m_Layer: 0
@@ -1489,7 +1464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6362626a18b054aa3c36dfe399b45c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterList: []
+  characterList:
+  - {fileID: 469935455}
 --- !u!114 &855368605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,6 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc3408cc278f4bd45a29a3431b0bddfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionButtonAttachTransform: {fileID: 2139949371}
 --- !u!4 &855368606
 Transform:
   m_ObjectHideFlags: 0
@@ -1517,6 +1494,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &855368607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855368602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c39b6112ed07c439b6fb2fae339383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnActionButtonPrefab: {fileID: 3019969284231793834, guid: c636cd9c937d6aa469c468a1b23ea1c7,
+    type: 3}
+--- !u!114 &855368608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855368602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916dd87339967854bbf4f04cfe715734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &867798226
 GameObject:
   m_ObjectHideFlags: 0

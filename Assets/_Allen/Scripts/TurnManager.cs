@@ -26,18 +26,25 @@ public class TurnManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(Instance);
+        else Destroy(Instance);    
     }
 
-    private void Update()
+    private void Start()
+    {
+        BattleStart();
+    }
+
+    #region Turn Sequence
+
+    private void CurrentTurn()
     {
         switch (turnState)
         {
             case TurnState.PLAYER:
-
+                ToggleButtons(playerPawnList);
                 break; 
             case TurnState.OPPONENT:
-                
+                ToggleButtons(opponentPawnList);
                 break;
             case TurnState.WAIT:
 
@@ -47,6 +54,23 @@ public class TurnManager : MonoBehaviour
                 break;
         }
     }
+
+    private void ToggleButtons(List<Pawn> charActionButtons)
+    {
+        for (int i = 0; i < charActionButtons.Count; i++)
+        {
+            if (i == Index)
+            {
+                charActionButtons[i].ToggleActionButtons(true);
+            }
+            else
+            {
+                charActionButtons[i].ToggleActionButtons(false);
+            }
+        }
+    }
+
+    #endregion
 
     #region Start Of Battle Functions
 
@@ -62,6 +86,8 @@ public class TurnManager : MonoBehaviour
         {
             opponentPawnList[i].SetActionButtons(InitializePawnActionButtons(opponentPawnList[i]));
         }
+
+        CurrentTurn();
     }
 
     private List<GameObject> InitializePawnActionButtons(Pawn pawn)
@@ -70,7 +96,7 @@ public class TurnManager : MonoBehaviour
 
         foreach (Action action in pawn.ActionsList)
         {
-            GameObject spawnedButton = Instantiate(turnActionButtonPrefab);
+            GameObject spawnedButton = Instantiate(turnActionButtonPrefab, GameManager.Instance.ActionButtonAttachTransform);
             spawnedButton.GetComponent<TurnActionButton>().Init(action.StartAction, action.name);
             actionButtons.Add(spawnedButton);
         }
@@ -90,12 +116,15 @@ public class TurnManager : MonoBehaviour
 
     #endregion
 
-    private void StartTurn(Pawn pawn)
+    #region Index
+
+    public void Next() 
     {
-
+        Index++; 
+        CurrentTurn();
     }
-
-    public void Next() => Index++;
     private void ResetIndex() => Index = 0;
+
+    #endregion
 
 }

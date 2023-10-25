@@ -6,7 +6,7 @@ public class ActionManager : MonoBehaviour
 {
     public static ActionManager Instance;
 
-    private Queue<Action> actionsList;
+    [SerializeField] private Queue<Action> actionsList = new Queue<Action>();
 
     private void Awake()
     {
@@ -17,6 +17,7 @@ public class ActionManager : MonoBehaviour
     public void EnqueueAction(Action actionToAdd)
     {
         actionsList.Enqueue(actionToAdd);
+        Debug.Log($"Queue Size: {actionsList.Count}");
     }
 
     public void InitiateActionSequence()

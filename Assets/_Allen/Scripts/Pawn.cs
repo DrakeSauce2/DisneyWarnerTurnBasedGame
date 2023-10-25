@@ -55,6 +55,8 @@ public class Pawn : MonoBehaviour
 
     #endregion
 
+    #region Action Button Functions
+
     public void SetActionButtons(List<GameObject> actionButtons)
     {
         turnActionButtons = actionButtons;
@@ -67,5 +69,7 @@ public class Pawn : MonoBehaviour
             actionButton.SetActive(state);
         }
     }
+
+    #endregion
 
 }
