@@ -6,6 +6,7 @@ public class Pawn : MonoBehaviour
 {
     [Header("Actions/Moves/Attacks")]
     [SerializeField] private List<Action> actionsList = new List<Action>();
+    public List<Action> ActionsList { get { return actionsList; } }
 
     [Header("Health Bar Component")]
     [SerializeField] private ValueGauge healthBarPrefab;   
@@ -22,7 +23,7 @@ public class Pawn : MonoBehaviour
             action.Init(gameObject);
         }
 
-        InitializeHealthComponent();
+        //InitializeHealthComponent();
     }
 
     #region Health Component Functions
@@ -53,6 +54,11 @@ public class Pawn : MonoBehaviour
     }
 
     #endregion
+
+    public void SetActionButtons(List<GameObject> actionButtons)
+    {
+        turnActionButtons = actionButtons;
+    }
 
     public void ToggleActionButtons(bool state)
     {

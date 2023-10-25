@@ -9,7 +9,7 @@ public class TurnActionButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI buttonActionName;
     private Button button;
 
-    private void Init(UnityEngine.Events.UnityAction call, string actionName)
+    public void Init(UnityEngine.Events.UnityAction call, string actionName)
     {
         button = GetComponent<Button>();
 

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Opponent : MonoBehaviour
 {
     [SerializeField] private List<Pawn> characterList = new List<Pawn>();
 
     private void Awake()
     {
-        TurnManager.Instance.SetPlayerPawns(characterList);
+        TurnManager.Instance.SetOpponentPawns(characterList);
 
     }
 }

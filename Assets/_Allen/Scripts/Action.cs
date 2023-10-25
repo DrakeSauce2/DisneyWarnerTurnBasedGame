@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Actions")]
 public class Action : ScriptableObject
 {
     public GameObject Owner { get; private set; }
@@ -15,7 +16,8 @@ public class Action : ScriptableObject
 
     public virtual void StartAction()
     {
-
+        ActionManager.Instance.EnqueueAction(this);
+        TurnManager.Instance.Next();
     }
 
 }
