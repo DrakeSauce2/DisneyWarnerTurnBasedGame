@@ -97,8 +97,9 @@ public class TurnManager : MonoBehaviour
 
         foreach (Action action in pawn.ActionsList)
         {
-            GameObject spawnedButton = Instantiate(turnActionButtonPrefab, GameManager.Instance.ActionButtonAttachTransform);
-            spawnedButton.GetComponent<TurnActionButton>().Init(action.StartAction, action.name);
+            GameObject spawnedButton = UIManager.Instance.CreateButton(action.name, action.StartAction, UIManager.Instance.ActionButtonTransform);
+            spawnedButton.SetActive(false);
+            
             actionButtons.Add(spawnedButton);
         }
 

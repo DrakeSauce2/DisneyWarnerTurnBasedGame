@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Actions/BaseAction")]
@@ -17,6 +18,8 @@ public class Action : ScriptableObject
 
     public virtual void StartAction()
     {
+        Debug.Log($"Action Initiate By: {this}");
+
         ActionManager.Instance.EnqueueAction(this);
         TurnManager.Instance.Next();
 

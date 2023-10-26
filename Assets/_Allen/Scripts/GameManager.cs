@@ -9,18 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform actionButtonAttachTransform;
     public Transform ActionButtonAttachTransform { get { return actionButtonAttachTransform; } }
 
-    //private UIManager UiManager;
-
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(Instance);
-    }
-
-    private void Start()
-    {
-       //UiManager = gameObject.AddComponent<UIManager>();
     }
 
 }

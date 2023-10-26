@@ -6,8 +6,7 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;   
 
-    [Header("Camera")]
-    [SerializeField] private Camera cam;
+    private Camera cam;
     [Header("Attach Transforms")]
     [SerializeField] private Transform neutralPoint;
 
@@ -15,6 +14,11 @@ public class CameraManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
+
+        GameObject cameraObject = new GameObject();
+        cameraObject.AddComponent<Camera>();
+
+        cam = Instantiate(cameraObject, neutralPoint).GetComponent<Camera>();
     }
 
     public void SetCameraPosition(Transform attachPoint)
