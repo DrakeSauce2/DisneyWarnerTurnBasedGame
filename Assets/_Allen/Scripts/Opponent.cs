@@ -7,7 +7,7 @@ public class Opponent : MonoBehaviour
 {
     [SerializeField] private List<Pawn> characterList = new List<Pawn>();
 
-    private void Awake()
+    private void Start()
     {
         TurnManager.Instance.SetOpponentPawns(characterList);
 

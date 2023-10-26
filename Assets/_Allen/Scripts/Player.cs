@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private List<Pawn> characterList = new List<Pawn>();
 
-    private void Awake()
+    private void Start()
     {
         TurnManager.Instance.SetPlayerPawns(characterList);
 

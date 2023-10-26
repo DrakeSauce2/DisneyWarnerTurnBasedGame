@@ -47,7 +47,7 @@ public class TurnManager : MonoBehaviour
                 ToggleButtons(opponentPawnList);
                 break;
             case TurnState.WAIT:
-
+                CameraManager.Instance.SetCameraPosition(null);
                 break;
             default:
 
@@ -62,6 +62,7 @@ public class TurnManager : MonoBehaviour
             if (i == Index)
             {
                 charActionButtons[i].ToggleActionButtons(true);
+                CameraManager.Instance.SetCameraPosition(charActionButtons[i].transform);
             }
             else
             {
@@ -123,6 +124,19 @@ public class TurnManager : MonoBehaviour
         Index++; 
         CurrentTurn();
     }
+
+    private void CheckTurnState()
+    {
+        if(Index >= playerPawnList.Count && turnState == TurnState.PLAYER)
+        {
+            turnState = TurnState.OPPONENT;
+        }
+        else if(Index >= opponentPawnList.Count && turnState == TurnState.OPPONENT)
+        {
+            turnState = TurnState.PLAYER;
+        }
+    }
+
     private void ResetIndex() => Index = 0;
 
     #endregion
