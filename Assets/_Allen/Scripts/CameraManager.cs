@@ -9,6 +9,8 @@ public class CameraManager : MonoBehaviour
     private Camera cam;
     [Header("Attach Transforms")]
     [SerializeField] private Transform neutralPoint;
+    [SerializeField] private Vector3 attachLookAtOffset;
+    
 
     private void Awake()
     {
@@ -25,7 +27,7 @@ public class CameraManager : MonoBehaviour
     {
         if (attachPoint != null)
         {
-            cam.transform.position = attachPoint.position;
+            cam.transform.position = attachPoint.position + attachLookAtOffset;
             cam.focalLength = Mathf.Lerp(cam.focalLength, 40, .3f);
         }
         else

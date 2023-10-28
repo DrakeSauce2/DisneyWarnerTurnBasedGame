@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ActionManager : MonoBehaviour
@@ -25,6 +26,16 @@ public class ActionManager : MonoBehaviour
         Action currentAction = actionsList.Dequeue();
 
         currentAction.StartAction();
+
+        if (actionsList.Count - 1 != 0)
+            InitiateActionSequence();
+
+        actionsList.Clear();
+    }
+
+    public int GetActionsCountInActionList()
+    {
+        return actionsList.Count;
     }
 
 }

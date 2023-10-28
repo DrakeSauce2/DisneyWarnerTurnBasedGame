@@ -6,7 +6,7 @@ public enum TurnState
 {
     PLAYER,
     OPPONENT,
-    WAIT
+    ATTACKSEQUENCE
 }
 
 public class TurnManager : MonoBehaviour
@@ -26,7 +26,9 @@ public class TurnManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(Instance);    
+        else Destroy(Instance);  
+        
+        Index = 0;
     }
 
     private void Start()
@@ -42,12 +44,21 @@ public class TurnManager : MonoBehaviour
         {
             case TurnState.PLAYER:
                 ToggleButtons(playerPawnList);
+                CheckSwitchTurnState(playerPawnList);
                 break; 
             case TurnState.OPPONENT:
                 ToggleButtons(opponentPawnList);
+                CheckSwitchTurnState(opponentPawnList);
                 break;
-            case TurnState.WAIT:
+            case TurnState.ATTACKSEQUENCE:
+                Debug.Log($"Starting Action Sequence!");
+
+                ToggleButtons(null);
+                ActionManager.Instance.InitiateActionSequence();
                 CameraManager.Instance.SetCameraPosition(null);
+
+                turnState = TurnState.PLAYER;
+                ResetIndex();
                 break;
             default:
 
@@ -55,20 +66,55 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    private void CheckSwitchTurnState(List<Pawn> pawns)
+    {
+        if (ActionManager.Instance.GetActionsCountInActionList() == (playerPawnList.Count + opponentPawnList.Count) - 1)
+        {
+            turnState = TurnState.ATTACKSEQUENCE;
+        }
+
+        if (Index == pawns.Count - 1)
+        {
+            if(turnState == TurnState.PLAYER) turnState = TurnState.OPPONENT;
+            else if(turnState == TurnState.OPPONENT) turnState = TurnState.PLAYER;
+        }
+    }
+
     private void ToggleButtons(List<Pawn> charActionButtons)
     {
-        for (int i = 0; i < charActionButtons.Count; i++)
+
+        if (charActionButtons != null)
         {
-            if (i == Index)
+            for (int i = 0; i < charActionButtons.Count; i++)
             {
-                charActionButtons[i].ToggleActionButtons(true);
-                CameraManager.Instance.SetCameraPosition(charActionButtons[i].transform);
-            }
-            else
-            {
-                charActionButtons[i].ToggleActionButtons(false);
+                if (i == Index)
+                {
+                    Debug.Log($"{charActionButtons[i]}'s Turn!");
+
+                    charActionButtons[i].ToggleActionButtons(true);
+                    CameraManager.Instance.SetCameraPosition(charActionButtons[i].transform);
+                }
+                else
+                {
+                    charActionButtons[i].ToggleActionButtons(false);
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < playerPawnList.Count; i++)
+            {
+                playerPawnList[i].ToggleActionButtons(false);
+            }
+
+            for (int i = 0; i < opponentPawnList.Count; i++)
+            {
+                opponentPawnList[i].ToggleActionButtons(false);
+            }
+
+            CameraManager.Instance.SetCameraPosition(null);
+        }
+
     }
 
     #endregion
@@ -97,7 +143,7 @@ public class TurnManager : MonoBehaviour
 
         foreach (Action action in pawn.ActionsList)
         {
-            GameObject spawnedButton = UIManager.Instance.CreateButton(action.name, action.StartAction, UIManager.Instance.ActionButtonTransform);
+            GameObject spawnedButton = UIManager.Instance.CreateButton(action.name, action.AddActionToQueue, UIManager.Instance.ActionButtonTransform);
             spawnedButton.SetActive(false);
             
             actionButtons.Add(spawnedButton);
@@ -124,18 +170,6 @@ public class TurnManager : MonoBehaviour
     {
         Index++; 
         CurrentTurn();
-    }
-
-    private void CheckTurnState()
-    {
-        if(Index >= playerPawnList.Count && turnState == TurnState.PLAYER)
-        {
-            turnState = TurnState.OPPONENT;
-        }
-        else if(Index >= opponentPawnList.Count && turnState == TurnState.OPPONENT)
-        {
-            turnState = TurnState.PLAYER;
-        }
     }
 
     private void ResetIndex() => Index = 0;

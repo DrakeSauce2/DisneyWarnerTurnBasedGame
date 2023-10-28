@@ -25,7 +25,7 @@ public class Pawn : MonoBehaviour
 
         //InitializeHealthComponent();
     }
-
+    // Make Health bar smaller using distance to camera
     #region Health Component Functions
 
     private void InitializeHealthComponent()
