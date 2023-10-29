@@ -44,13 +44,13 @@ public class TurnManager : MonoBehaviour
         switch (turnState)
         {
             case TurnState.PLAYER:
-                NewToggleButtons(playerPawnList[Index]);
-                //CheckSwitchTurnState();
+                ToggleButtons(playerPawnList[Index]);
+                CameraManager.Instance.SetCameraPosition(playerPawnList[Index].transform);
                 ResetIndex();
                 break; 
             case TurnState.OPPONENT:
-                NewToggleButtons(opponentPawnList[Index]);
-                //CheckSwitchTurnState();
+                ToggleButtons(opponentPawnList[Index]);
+                CameraManager.Instance.SetCameraPosition(opponentPawnList[Index].transform);
                 ResetIndex();
                 break;
             case TurnState.ATTACKSEQUENCE:
@@ -96,42 +96,7 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(CurrentTurn());
     }
 
-    private void ToggleButtons(List<Pawn> charActionButtons)
-    {
-        if (charActionButtons != null)
-        {
-            for (int i = 0; i < charActionButtons.Count; i++)
-            {
-                if (i == Index)
-                {
-                    Debug.Log($"{charActionButtons[i]}'s Turn!");
-
-                    charActionButtons[i].ToggleActionButtons(true);
-                    CameraManager.Instance.SetCameraPosition(charActionButtons[i].transform);
-                }
-                else
-                {
-                    charActionButtons[i].ToggleActionButtons(false);
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < playerPawnList.Count; i++)
-            {
-                playerPawnList[i].ToggleActionButtons(false);
-            }
-
-            for (int i = 0; i < opponentPawnList.Count; i++)
-            {
-                opponentPawnList[i].ToggleActionButtons(false);
-            }
-
-            CameraManager.Instance.SetCameraPosition(null);
-        }
-    }
-
-    private void NewToggleButtons(Pawn pawn)
+    private void ToggleButtons(Pawn pawn)
     {
         for (int i = 0; i < playerPawnList.Count; i++)
         {
@@ -163,6 +128,12 @@ public class TurnManager : MonoBehaviour
         }
 
         CameraManager.Instance.SetCameraPosition(null);
+    }
+
+    public void SelectTarget()
+    {
+        CameraManager.Instance.SetCameraPosition(null);
+
     }
 
     #endregion

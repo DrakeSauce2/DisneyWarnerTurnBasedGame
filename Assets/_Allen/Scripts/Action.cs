@@ -21,6 +21,9 @@ public class Action : ScriptableObject
         Debug.Log($"Adding {this} To Queue!");
 
         ActionManager.Instance.EnqueueAction(this);
+
+        // Select Target Before Doing Next!
+
         TurnManager.Instance.Next();
 
         actionUse--;
