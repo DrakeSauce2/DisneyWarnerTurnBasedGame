@@ -30,7 +30,6 @@ public class Action : ScriptableObject
         // Select Target Before Doing Next!
 
         ActionManager.Instance.EnqueueAction(this);
-        TurnManager.Instance.Next();
 
         actionUse--;
     }
@@ -46,6 +45,8 @@ public class Action : ScriptableObject
     public void SetTarget(Pawn opponentPawn)
     {
         targetedPawn = opponentPawn;
+
+        AddActionToQueue();
     }
 
     public void RemoveTarget()

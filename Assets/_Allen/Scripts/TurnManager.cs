@@ -15,6 +15,7 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance;
     [SerializeField] private TurnState turnState;
+    private TurnState previousTurn;
 
     [Header("Targeting")]
     [SerializeField] private Transform currentTurnTarget;
@@ -55,6 +56,12 @@ public class TurnManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             IncrementSelection(-1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            playerPawnList[Index].ActionsList[Index].SetTarget(opponentPawnList[selectionIndex]);
+            Next();
         }
 
         oppenentTargeter.position = SelectTarget(opponentPawnList);
@@ -118,6 +125,9 @@ public class TurnManager : MonoBehaviour
 
     private void CheckSwitchTurnState()
     {
+        if(turnState == TurnState.TARGETING)
+            turnState = previousTurn;
+
         List<Pawn> pawns = new List<Pawn>();
         if (turnState == TurnState.PLAYER)
             pawns = playerPawnList;
@@ -130,13 +140,14 @@ public class TurnManager : MonoBehaviour
             ResetIndex();
         }
 
-        if (Index == pawns.Count)
+        if (Index >= pawns.Count)
         {
             if(turnState == TurnState.PLAYER) turnState = TurnState.OPPONENT;
             else if(turnState == TurnState.OPPONENT) turnState = TurnState.PLAYER;
             ResetIndex();
         }
 
+        Debug.Log($"Turn State Changed To: {turnState}");
         StartCoroutine(CurrentTurn());
     }
 
@@ -176,8 +187,12 @@ public class TurnManager : MonoBehaviour
 
     public void StartTargeting()
     {
+        if (previousTurn == TurnState.TARGETING) return;
+
         CameraManager.Instance.SetCameraPosition(null);
+        previousTurn = turnState;
         turnState = TurnState.TARGETING;
+        Debug.Log($"Turn State Changed To: {turnState}");
     }
 
     private Vector3 SelectTarget(List<Pawn> pawns)

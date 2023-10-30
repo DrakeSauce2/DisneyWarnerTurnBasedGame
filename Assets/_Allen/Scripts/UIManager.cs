@@ -60,6 +60,8 @@ public class UIManager : MonoBehaviour
         Button button = buttonGameObject.GetComponent<Button>();
         button.onClick.AddListener(call);
 
+        button.navigation.Equals(Navigation.Mode.None);
+
         CreateButtonText(text, buttonGameObject.transform);
 
         return buttonGameObject;
