@@ -7,6 +7,7 @@ public enum TurnState
 {
     PLAYER,
     OPPONENT,
+    TARGETING,
     ATTACKSEQUENCE
 }
 
@@ -14,6 +15,11 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance;
     [SerializeField] private TurnState turnState;
+
+    [Header("Targeting")]
+    [SerializeField] private Transform currentTurnTarget;
+    [SerializeField] private Transform oppenentTargeter;
+    [SerializeField] private int selectionIndex = 0;
 
     [Header("Action Button Prefab")]
     [SerializeField] private GameObject turnActionButtonPrefab;
@@ -37,6 +43,39 @@ public class TurnManager : MonoBehaviour
         BattleStart();
     }
 
+    private void Update()
+    {
+        if (turnState != TurnState.TARGETING) return;
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            IncrementSelection(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            IncrementSelection(-1);
+        }
+
+        oppenentTargeter.position = SelectTarget(opponentPawnList);
+    }
+
+    private void IncrementSelection(int increment)
+    {
+        selectionIndex += increment;
+
+        if (selectionIndex >= opponentPawnList.Count)
+        {
+            selectionIndex = 0;
+        }
+
+        if (selectionIndex < 0)
+        {
+            selectionIndex = opponentPawnList.Count - 1;
+        }
+
+    }
+
     #region Turn Sequence
 
     private IEnumerator CurrentTurn()
@@ -44,11 +83,13 @@ public class TurnManager : MonoBehaviour
         switch (turnState)
         {
             case TurnState.PLAYER:
+                currentTurnTarget.position = playerPawnList[Index].transform.position;
                 ToggleButtons(playerPawnList[Index]);
                 CameraManager.Instance.SetCameraPosition(playerPawnList[Index].transform);
                 ResetIndex();
                 break; 
             case TurnState.OPPONENT:
+                currentTurnTarget.position = opponentPawnList[Index].transform.position;
                 ToggleButtons(opponentPawnList[Index]);
                 CameraManager.Instance.SetCameraPosition(opponentPawnList[Index].transform);
                 ResetIndex();
@@ -62,6 +103,9 @@ public class TurnManager : MonoBehaviour
 
                 turnState = TurnState.PLAYER;
                 ResetIndex();
+                break;
+            case TurnState.TARGETING:
+                StartTargeting();
                 break;
             default:
 
@@ -130,10 +174,15 @@ public class TurnManager : MonoBehaviour
         CameraManager.Instance.SetCameraPosition(null);
     }
 
-    public void SelectTarget()
+    public void StartTargeting()
     {
         CameraManager.Instance.SetCameraPosition(null);
+        turnState = TurnState.TARGETING;
+    }
 
+    private Vector3 SelectTarget(List<Pawn> pawns)
+    {
+        return pawns[selectionIndex].transform.position;
     }
 
     #endregion
@@ -162,7 +211,7 @@ public class TurnManager : MonoBehaviour
 
         foreach (Action action in pawn.ActionsList)
         {
-            GameObject spawnedButton = UIManager.Instance.CreateButton(action.name, action.AddActionToQueue, UIManager.Instance.ActionButtonTransform);
+            GameObject spawnedButton = UIManager.Instance.CreateButton(action.name, action.StartTargeting, UIManager.Instance.ActionButtonTransform);
             spawnedButton.SetActive(false);
             
             actionButtons.Add(spawnedButton);

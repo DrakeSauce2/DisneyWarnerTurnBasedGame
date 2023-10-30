@@ -16,14 +16,20 @@ public class Action : ScriptableObject
         Owner = owner;
     }
 
+    public void StartTargeting()
+    {
+        CameraManager.Instance.SetCameraPosition(null);
+
+        TurnManager.Instance.StartTargeting();
+    }
+
     public virtual void AddActionToQueue()
     {
         Debug.Log($"Adding {this} To Queue!");
 
-        ActionManager.Instance.EnqueueAction(this);
-
         // Select Target Before Doing Next!
 
+        ActionManager.Instance.EnqueueAction(this);
         TurnManager.Instance.Next();
 
         actionUse--;
