@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Pawn : MonoBehaviour
 {
+    [Header("Name")]
+    [SerializeField] private string pawnName;
+    public string PawnName { get { return pawnName; } }
+
+
     [Header("Actions/Moves/Attacks")]
     [SerializeField] private List<Action> actionsList = new List<Action>();
     public List<Action> ActionsList { get { return actionsList; } }

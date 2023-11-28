@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        TurnManager.Instance.SetPlayerPawns(characterList);
 
     }
 }

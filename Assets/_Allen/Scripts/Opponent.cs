@@ -9,7 +9,6 @@ public class Opponent : MonoBehaviour
 
     private void Start()
     {
-        TurnManager.Instance.SetOpponentPawns(characterList);
 
     }
 }

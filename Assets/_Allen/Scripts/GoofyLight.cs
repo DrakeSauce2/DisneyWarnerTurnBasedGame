@@ -10,7 +10,6 @@ public class GoofyLight : Action
         Debug.Log($"Action Initiate By: {this}");
 
         ActionManager.Instance.EnqueueAction(this);
-        TurnManager.Instance.Next();
 
         actionUse--;
     }

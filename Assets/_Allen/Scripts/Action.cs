@@ -19,8 +19,6 @@ public class Action : ScriptableObject
     public void StartTargeting()
     {
         CameraManager.Instance.SetCameraPosition(null);
-
-        TurnManager.Instance.StartTargeting();
     }
 
     public virtual void AddActionToQueue()
